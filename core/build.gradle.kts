@@ -16,11 +16,13 @@ kotlin {
 //    val mingwTargets = if (Targeting.MINGW) mingwTargets() else listOf()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(kotlinx.serialization.core)
-                api(libs.kotlinx.exports)
-            }
+        commonMain.dependencies {
+            api(kotlinx.serialization.core)
+            api(libs.kotlinx.exports)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kommander.core)
         }
     }
 }

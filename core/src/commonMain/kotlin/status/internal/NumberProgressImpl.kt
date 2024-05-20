@@ -16,7 +16,7 @@ internal class NumberProgressImpl(
         val value = if (this.total == 0.0) 0.0 else (this.done / this.total).toRounded()
         ProgressionSplit(value, 1 - value)
     }
-    override val percentage by lazy { this.fraction * 100 }
+    override val percentage by lazy { fraction * 100 }
 
     private fun Number.toRounded() = round(toDouble() * 100) / 100
 }

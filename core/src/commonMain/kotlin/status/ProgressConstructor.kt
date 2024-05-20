@@ -10,7 +10,7 @@ inline fun PercentProgress(percent: Number): Progress<Double> {
     val pi = percent.toDouble()
     val pf = max(0.0, pi)
     val value = min(pf, 100.0)
-    return NumberProgressImpl(value, 100.0 - value)
+    return NumberProgressImpl(value, 100.0)
 }
 
 inline fun Progress(done: Number, total: Number): Progress<Double> {
