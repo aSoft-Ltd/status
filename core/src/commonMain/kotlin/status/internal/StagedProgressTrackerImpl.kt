@@ -3,6 +3,7 @@ package status.internal
 import status.Progress
 import status.ProgressStage
 import status.ProgressStagePublisher
+import status.StageReport
 import status.StagedProgressReport
 import status.StagedProgressTracker
 
@@ -17,6 +18,7 @@ internal class StagedProgressTrackerImpl<T : Any> : StagedProgressTracker<T> {
     ) : ProgressStagePublisher<T> {
         override fun invoke(progress: Progress<T>) {
             report.stages[this] = progress
+            report.current = StageReport(this, progress)
             progressReportHandlers.forEach { it(report) }
         }
 
@@ -32,9 +34,9 @@ internal class StagedProgressTrackerImpl<T : Any> : StagedProgressTracker<T> {
 
     override fun stages(vararg value: String): List<ProgressStagePublisher<T>> = value.mapIndexed { index, name ->
         ProgressStagePublisherImpl(name, index)
-    }.also {
-        report = StagedProgressReportImpl(it.associateWith { null }.toMutableMap())
-        stagesCreatedHandlers.forEach { handler -> handler(it) }
+    }.also { them ->
+        report = StagedProgressReportImpl(them.associateWith { null }.toMutableMap())
+        stagesCreatedHandlers.forEach { handler -> handler(them) }
     }
 
     override fun removeProgressListener(callback: ((StagedProgressReport<T>) -> Unit)?) {
